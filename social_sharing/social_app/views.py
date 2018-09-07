@@ -24,5 +24,9 @@ def logout(request):
 def get_events_list(request):
     events = Event.objects.all()
     dictionaries = [serializer_event(event) for event in events]
-    print 'bbb', json.dumps({"data": dictionaries})
     return HttpResponse(json.dumps({"data": dictionaries}), content_type='application/json')
+
+def search_event(request):
+    params = request.GET
+    print 'param',
+    return HttpResponse()
