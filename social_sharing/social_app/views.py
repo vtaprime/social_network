@@ -18,8 +18,8 @@ def index(request):
     return HttpResponse('Welcome!!!')
 
 def admin_login(request):
-    data = request.POST
-    print 'dataaaaa', type(data)
+    data = request.body
+    print 'dataaaaa', data
     ip = get_client_ip(request)
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     user_info = json.loads(data)
