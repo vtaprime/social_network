@@ -11,7 +11,7 @@ from django.db import models
 
 
 class Comment(models.Model):
-    comment_id = models.IntegerField(primary_key=True)
+    comment_id = models.AutoField(primary_key=True)
     content = models.TextField()
     event = models.ForeignKey('Event', models.DO_NOTHING)
     user = models.ForeignKey('User', models.DO_NOTHING)
@@ -42,13 +42,13 @@ class DjangoMigrations(models.Model):
 
 
 class Event(models.Model):
-    event_id = models.IntegerField(primary_key=True)
+    event_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     photo = models.TextField(blank=True, null=True)
     date = models.CharField(max_length=45)
     location = models.CharField(max_length=200, blank=True, null=True)
-    participant = models.TextField(blank=True, null=True)
+    participants = models.TextField(blank=True, null=True)
     user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:
@@ -56,8 +56,18 @@ class Event(models.Model):
         db_table = 'event'
 
 
+class Participant(models.Model):
+    participant_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey('User', models.DO_NOTHING)
+    event = models.ForeignKey(Event, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'participant'
+
+
 class Reaction(models.Model):
-    reactionid = models.IntegerField(primary_key=True)
+    reactionid = models.AutoField(primary_key=True)
     like_number = models.IntegerField()
     user_like = models.TextField()
     event = models.ForeignKey(Event, models.DO_NOTHING)
@@ -67,12 +77,27 @@ class Reaction(models.Model):
         db_table = 'reaction'
 
 
+class Session(models.Model):
+    session_id = models.AutoField(primary_key=True)
+    ip_adress = models.CharField(db_column='IP_adress', max_length=45)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING)
+    last_login = models.CharField(max_length=45)
+    login_status = models.CharField(max_length=45)
+    session_value = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'session'
+
+
 class User(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)
     is_super_user = models.IntegerField()
+    username = models.CharField(unique=True, max_length=45)
+    password = models.CharField(max_length=100)
 
     class Meta:
         managed = False
