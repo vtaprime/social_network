@@ -60,6 +60,7 @@
     </div>
 
     <button id="post-btn">Post</button>
+    <button id="login-btn">Login</button>
 </body>
 
 <script type="text/javascript">
@@ -81,13 +82,6 @@
                     $(this).parent(".pip").remove();
                 });
               
-              // Old code here
-              /*$("<img></img>", {
-                class: "imageThumb",
-                src: e.target.result,
-                title: file.name + " | Click to remove"
-              }).insertAfter("#files").click(function(){$(this).remove();});*/
-              
             });
             fileReader.readAsDataURL(f);
           }
@@ -100,7 +94,6 @@
         var time = $("#time").val();
         var description = $("#description").val();
         $("#post-btn").click(function post(argument) {
-            console.log('ahihi', title, time, location, description);
             // var images = $("#files").get(0).files;
             var formData = new FormData();
             $.each($("#files")[0].files, function(i, file) {
@@ -113,9 +106,13 @@
             formData.append('location', location);
             formData.append('time', time);
             formData.append('description', description);
-            
+            $.ajaxSetup({
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
             $.ajax({
-                url: "http://localhost:8000/social_app/api/admin/upload",
+                url: "http://127.0.0.1:8000/social_app/api/admin/upload",
                 type:"POST",
                 processData:false,
                 contentType: false,
@@ -123,9 +120,33 @@
                     complete: function(data){
                                 alert("success");
                         }
-                    });
-                })
             });
+        });
+        $("#login-btn").click(function login(argument) {
+
+            var data={
+                    "username": "vta1",
+                    "password": "vta1234"
+                }
+            $.ajaxSetup({
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
+            $.ajax({
+                url: "http://127.0.0.1:8000/social_app/api/admin/login",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                complete: function(data){
+                            alert("login success");
+                    }
+            });
+        });
+
+    });
+
+
 </script>
 
 </html>

@@ -17,10 +17,36 @@ def check_log():
 def index(request):
     return HttpResponse('Welcome!!!')
 
+def admin_login(request):
+    data = request.POST
+    print 'dataaaaa', type(data)
+    ip = get_client_ip(request)
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    user_info = json.loads(data)
+
+    user = User.objects.filter(username=user_info['username'])
+    if len(user) > 0:
+        user_pass = user_info['password']
+        pass_hash = user[0].password
+        user_session = User.objects.get(user_id=int(user[0].user_id))
+        if check_password(user_pass, pass_hash):
+            key = str(uuid.uuid4())
+            if int(user[0].is_super_user) == 1:
+                Session.objects.create(ip_adress=ip, user=user_session, last_login=now,
+                                       login_status=1, session_value=key)
+                response = HttpResponse("Authentication success!", status=200)
+                response.set_cookie('session_id', key)
+            else:
+                response = HttpResponse("Authentication failed!", status=401)
+        else:
+            response = HttpResponse("Authentication failed!", status=401)
+    else:
+        response = HttpResponse("Authentication failed!", status=401)
+    return response
+
 def login(request):
     data = request.body
     ip = get_client_ip(request)
-    print 'ipppppppp', ip
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     user_info = json.loads(data)
 
@@ -39,6 +65,7 @@ def login(request):
             response = HttpResponse("Authentication failed!", status=401)
     else:
         response = HttpResponse("Authentication failed!", status=401)
+
     return response
 
 def logout(request):
@@ -55,7 +82,6 @@ def search_event(request):
     return HttpResponse()
 
 def admin_upload(request):
-    print 'abc', request.POST
     data = request.POST
     images = request.FILES.getlist('file')
     desciption = data['description']
@@ -66,10 +92,15 @@ def admin_upload(request):
     path = './templates/images/'
     for f in images:
         image_path = handle_uploaded_file(f, path)
-        list_path.push(image_path)
+        list_path.append(image_path)
+
+    # if 'session_id' in request.COOKIES.keys():
     session_id = request.COOKIES.get('session_id')
-    user_id = Session.objects.get(session_value=session_id).user_id
-    user = User.objects.get(user_id=int(user_id))
-    Event.objects.create(title=title, desciption=desciption, photo=list_path, date=time,
-                         location=location, user=user)
+    ip = get_client_ip(request)
+    print 'session a', session_id, ip
+
+    # user_id = Session.objects.get(session_value=session_id).user_id
+    # user = User.objects.get(user_id=int(user_id))
+    # Event.objects.create(title=title, desciption=desciption, photo=list_path, date=time,
+    #                      location=location, user=user)
     return HttpResponse('Upload success!', status=200)
