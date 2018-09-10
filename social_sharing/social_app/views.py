@@ -2,44 +2,12 @@ from django.shortcuts import render
 import request
 from django.http import HttpResponse, JsonResponse
 from models import User, Reaction, Event, Session
-from utils import check_password, get_client_ip
-# Create your views here.
+from utils import check_password, get_client_ip, handle_uploaded_file
 from serializers import serializer_event
 import json
 import uuid
 import datetime
 
-
-# def new_session(db):
-#     """Make a new session key, store it in the db.
-#     Add a cookie to the response with the session key and
-#     return the new session key"""
-#
-#     # use the uuid library to make the random key
-#
-#     cur = db.cursor()
-#     # store this new session key in the database with no likes in the value
-#     cur.execute("INSERT INTO sessions VALUES (?)", (key,))
-#     db.commit()
-#
-#     response.set_cookie(COOKIE_NAME, key)
-#
-#     return key
-#
-# def get_session(db):
-#     """Get the current session key if any, if not, return None"""
-#
-#     key = request.get_cookie(COOKIE_NAME)
-#
-#     cur = db.cursor()
-#     cur.execute("SELECT key FROM sessions WHERE key=?", (key,))
-#
-#     row = cur.fetchone()
-#     if not row:
-#         # no existing session so we create a new one
-#         key = new_session(db)
-#
-#     return keyfrom models import User, Comment, Reaction, Event
 from django.conf import settings
 
 
@@ -83,5 +51,25 @@ def get_events_list(request):
 
 def search_event(request):
     params = request.GET
-    print 'param',
+    print 'param'
     return HttpResponse()
+
+def admin_upload(request):
+    print 'abc', request.POST
+    data = request.POST
+    images = request.FILES.getlist('file')
+    desciption = data['description']
+    time = data['time']
+    location = data['location']
+    title = data['title']
+    list_path = []
+    path = './templates/images/'
+    for f in images:
+        image_path = handle_uploaded_file(f, path)
+        list_path.push(image_path)
+    session_id = request.COOKIES.get('session_id')
+    user_id = Session.objects.get(session_value=session_id).user_id
+    user = User.objects.get(user_id=int(user_id))
+    Event.objects.create(title=title, desciption=desciption, photo=list_path, date=time,
+                         location=location, user=user)
+    return HttpResponse('Upload success!', status=200)

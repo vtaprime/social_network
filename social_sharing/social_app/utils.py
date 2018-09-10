@@ -16,3 +16,9 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def handle_uploaded_file(f, path):
+    with open(path + f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    return path+f.name

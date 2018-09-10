@@ -48,7 +48,6 @@ class Event(models.Model):
     photo = models.TextField(blank=True, null=True)
     date = models.CharField(max_length=45)
     location = models.CharField(max_length=200, blank=True, null=True)
-    participants = models.TextField(blank=True, null=True)
     user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:
@@ -96,7 +95,7 @@ class User(models.Model):
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)
     is_super_user = models.IntegerField()
-    username = models.CharField(unique=True, max_length=45)
+    username = models.CharField(max_length=45)
     password = models.CharField(max_length=100)
 
     class Meta:
