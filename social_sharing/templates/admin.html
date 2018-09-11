@@ -94,14 +94,12 @@
         var time = $("#time").val();
         var description = $("#description").val();
         $("#post-btn").click(function post(argument) {
-            // var images = $("#files").get(0).files;
             var formData = new FormData();
             $.each($("#files")[0].files, function(i, file) {
                 console.log('vv', file)
                 formData.append("file", file);
             });
-            // console.log('aaaaa', images);
-            // formData.append('images', images);
+            
             formData.append('title', title);
             formData.append('location', location);
             formData.append('time', time);
@@ -116,6 +114,7 @@
                 type:"POST",
                 processData:false,
                 contentType: false,
+                crossDomain: true,
                 data: formData,
                     complete: function(data){
                                 alert("success");
@@ -128,6 +127,12 @@
                     "username": "vta1",
                     "password": "vta1234"
                 };
+
+            $.ajaxSetup({
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
 
             $.ajax({
                 url: "http://127.0.0.1:8000/social_app/api/admin/login",

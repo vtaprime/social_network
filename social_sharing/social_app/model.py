@@ -46,9 +46,10 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     photo = models.TextField(blank=True, null=True)
-    date = models.CharField(max_length=45)
+    date_took_place = models.CharField(max_length=45, blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey('User', models.DO_NOTHING)
+    time = models.CharField(max_length=45)
 
     class Meta:
         managed = False

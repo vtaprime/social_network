@@ -1,4 +1,4 @@
-from models import User, Comment, Reaction, Event
+from model import User, Comment, Reaction, Event
 from django.conf import settings
 
 def serializer_event(event):
