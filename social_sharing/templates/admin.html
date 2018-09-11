@@ -44,6 +44,10 @@
             <input type="text" id="title" name="title" style="margin-left: 70px">     
         </div>
         <div>
+            <label>Hashtag</label>
+            <input type="text" id="hashtag" name="hashtag" style="margin-left: 38px">
+        </div>
+        <div>
             <label>Location</label>
             <input type="text" id="location" name="location" style="margin-left: 35px">
         </div>
@@ -61,6 +65,7 @@
 
     <button id="post-btn">Post</button>
     <button id="login-btn">Login</button>
+    <button id="logout-btn">Logout</button>
 </body>
 
 <script type="text/javascript">
@@ -93,6 +98,7 @@
         var location = $("#location").val();
         var time = $("#time").val();
         var description = $("#description").val();
+        var hashtag = $("#hashtag").val();
         $("#post-btn").click(function post(argument) {
             var formData = new FormData();
             $.each($("#files")[0].files, function(i, file) {
@@ -101,6 +107,7 @@
             });
             
             formData.append('title', title);
+            formData.append('hashtag', hashtag);
             formData.append('location', location);
             formData.append('time', time);
             formData.append('description', description);
@@ -143,6 +150,22 @@
                 complete: function(data2){
                             alert("login successww");
                             console.log("data", data2);
+                    }
+            });
+        });
+        $("#logout-btn").click(function login(argument) {
+
+            $.ajaxSetup({
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
+
+            $.ajax({
+                url: "http://127.0.0.1:8000/social_app/api/logout",
+                crossDomain: true,
+                complete: function(data2){
+                            alert("logout successww");
                     }
             });
         });

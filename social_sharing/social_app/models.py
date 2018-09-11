@@ -15,6 +15,7 @@ class Comment(models.Model):
     content = models.TextField()
     event = models.ForeignKey('Event', models.DO_NOTHING)
     user = models.ForeignKey('User', models.DO_NOTHING)
+    create_time = models.CharField(max_length=45)
 
     class Meta:
         managed = False
@@ -50,6 +51,7 @@ class Event(models.Model):
     location = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey('User', models.DO_NOTHING)
     time = models.CharField(max_length=45)
+    hashtag = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -67,9 +69,8 @@ class Participant(models.Model):
 
 
 class Reaction(models.Model):
-    reactionid = models.AutoField(primary_key=True)
-    like_number = models.IntegerField()
-    user_like = models.TextField()
+    reaction_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey('User', models.DO_NOTHING)
     event = models.ForeignKey(Event, models.DO_NOTHING)
 
     class Meta:
