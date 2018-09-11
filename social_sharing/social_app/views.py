@@ -180,18 +180,21 @@ def join_event(request):
     data = json.loads(request.body)
     user_id = data['user_id']
     event_id = data['event_id']
+    user = User.objects.get(user_id=user_id)
+    event = Event.objects.get(event_id=event_id)
 
     if request.method == 'POST':
         try:
-            Participant.objects.create(user=user_id, event=event_id)
-            response = HttpResponse('Success', status=200)
+            Participant.objects.create(user=user, event=event)
+            response = HttpResponse('Success!', status=200)
         except Exception as e:
             response = HttpResponse('Join event failed')
             return response
-    if request.method == 'UPDATE':
+    if request.method == 'PUT':
         try:
             user = Participant.objects.get(user=user_id, event=event_id)
             user.delete()
+            response = HttpResponse('Success update!', status=200)
         except Exception as e:
             response = HttpResponse('Update fail!')
             return response
@@ -220,10 +223,11 @@ def reaction(request):
         except Exception as e:
             response = HttpResponse('Like event failed')
             return response
-    if request.method == 'UPDATE':
+    if request.method == 'PUT':
         try:
             user = Reaction.objects.get(user=user_id, event=event_id)
             user.delete()
+            response = HttpResponse('Success update!', status=200)
         except Exception as e:
             response = HttpResponse('Update fail!')
             return response
@@ -267,7 +271,7 @@ def get_participant(request):
             return response
     event_id = request.GET['event_id']
     event = Event.objects.get(event_id=event_id)
-    participants = Participant.object.filter(event_id=event)
+    participants = Participant.objects.filter(event_id=event)
     users = []
     for participant in participants:
         user_id = participant.user_id
@@ -288,7 +292,7 @@ def get_reaction(request):
             return response
     event_id = request.GET['event_id']
     event = Event.objects.get(event_id=event_id)
-    reactions = Reaction.object.filter(event_id=event)
+    reactions = Reaction.objects.filter(event_id=event)
     users = []
     for reaction in reactions:
         user_id = reaction.user_id
