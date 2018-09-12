@@ -1,0 +1,5 @@
+django==1.11.8
+MySQL-python==1.2.5
+bcrypt==3.1.4
+django-cors-headers==2.4.0
+gunicorn==19.9.0

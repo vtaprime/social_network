@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import request
 from django.http import HttpResponse, JsonResponse
 from models import User, Reaction, Event, Session, Participant, Comment
 from utils import check_password, get_client_ip, handle_uploaded_file, serializer_event, serializer_comment
@@ -15,14 +14,22 @@ def index(request):
 
 
 def admin_login(request):
-    data = request.body
+    if request.method=="POST":
+        data = request.body
+    else:
+        return HttpResponse('Require POST method', status=405)
     ip = get_client_ip(request)
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    user_info = json.loads(data)
+    try:
+        user_info = json.loads(data)
+        username = user_info['username']
+        password = user_info['password']
+    except Exception as e:
+        return HttpResponse('Data format was wrong!', status=400)
 
-    user = User.objects.filter(username=user_info['username'])
+    user = User.objects.filter(username=username)
     if len(user) > 0:
-        user_pass = user_info['password']
+        user_pass = password
         pass_hash = user[0].password
         user_session = User.objects.get(user_id=int(user[0].user_id))
         if check_password(user_pass, pass_hash):
@@ -30,33 +37,41 @@ def admin_login(request):
             if int(user[0].is_super_user) == 1:
                 Session.objects.create(ip_adress=ip, user=user_session, last_login=now,
                                        login_status=1, session_value=key)
-                response = HttpResponse("Authentication success!", status=200)
+                response = HttpResponse("Authentication successed!", status=200)
                 response.set_cookie('session_id', key)
             else:
-                response = HttpResponse("Authentication failed!", status=401)
+                response = HttpResponse("Authentication failed!", status=404)
         else:
-            response = HttpResponse("Authentication failed!", status=401)
+            response = HttpResponse("Authentication failed!", status=404)
     else:
-        response = HttpResponse("Authentication failed!", status=401)
+        response = HttpResponse("Authentication failed!", status=404)
     return response
 
 
 def login(request):
-    data = request.body
+    if request.method=="POST":
+        data = request.body
+    else:
+        return HttpResponse('Require POST method', status=405)
     ip = get_client_ip(request)
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    user_info = json.loads(data)
+    try:
+        user_info = json.loads(data)
+        username = user_info['username']
+        password = user_info['password']
+    except Exception as e:
+        return HttpResponse('Data format was wrong!', status=400)
 
-    user = User.objects.filter(username=user_info['username'])
+    user = User.objects.filter(username=username)
     if len(user) > 0:
-        user_pass = user_info['password']
+        user_pass = password
         pass_hash = user[0].password
         user_session = User.objects.get(user_id=int(user[0].user_id))
         if check_password(user_pass, pass_hash):
             key = str(uuid.uuid4())
             Session.objects.create(ip_adress=ip, user=user_session, last_login = now,
                                        login_status = 1, session_value=key)
-            response = HttpResponse("Authentication success!", status=200)
+            response = HttpResponse("Authentication successed!", status=200)
             response.set_cookie(key='session_id', value=key)
         else:
             response = HttpResponse("Authentication failed!", status=401)
@@ -72,11 +87,9 @@ def logout(request):
         try:
             session = Session.objects.get(session_value=session_id)
             session.delete()
-            response = HttpResponse('Logout success!', status=200)
-            if 'last_event' in request.COOKIES.keys():
-                response.delete_cookie('last_event')
+            response = HttpResponse('Logout successed!', status=200)
         except Exception as e:
-            response = HttpResponse('Logout failed!', status=401)
+            response = HttpResponse('Logout failed!', status=404)
     return response
 
 
@@ -90,19 +103,23 @@ def get_events_list(request):
             return response
         now = datetime.datetime.now()
         time = now.strftime("%Y-%m-%d %H:%M:%S")
-        if 'last_event' in request.COOKIES.keys():
-            last_event_time = request.COOKIES.get('last_event')
-            last_event_time = datetime.datetime.strptime(last_event_time, '%Y-%m-%d %H:%M:%S') - datetime.timedelta(seconds=1)
-            last_event_time = last_event_time.strftime("%Y-%m-%d %H:%M:%S")
-            events = Event.objects.filter(time__range=('',last_event_time)).order_by('-time')[0:5]
-        else:
-            events = Event.objects.filter(time__range=('', time)).order_by('-time')[0:5]
+        if request.method == "GET":
+            if "last_event" in request.GET:
+                last_event_time = request.GET['last_event']
+                last_event_time = datetime.datetime.strptime(last_event_time, '%Y-%m-%d %H:%M:%S') - \
+                                  datetime.timedelta(seconds=1)
+                last_event_time = last_event_time.strftime("%Y-%m-%d %H:%M:%S")
+                events = Event.objects.filter(time__range=('',last_event_time)).order_by('-time')[0:5]
+            else:
+                events = Event.objects.filter(time__range=('', time)).order_by('-time')[0:5]
 
         dictionaries = [serializer_event(event) for event in events]
+
         if len(dictionaries) > 0:
             last_event_time = events[len(events) - 1].time
-            response = HttpResponse(json.dumps({"data": dictionaries}), content_type='application/json', status=200)
-            response.set_cookie('last_event', last_event_time)
+            next_url = "http://localhost:8000/social_app/api/events_list/?last_event=" + last_event_time
+            response = HttpResponse(json.dumps({"data": dictionaries, "next": next_url}),
+                                    content_type='application/json', status=200)
         else:
             response = HttpResponse('No more events!', status=200)
 
@@ -114,7 +131,6 @@ def get_events_list(request):
 
 def search_event(request):
     params = request.GET
-    print 'param', params['date']
     if 'session_id' in request.COOKIES.keys():
         session_id = request.COOKIES.get('session_id')
         try:
@@ -122,16 +138,19 @@ def search_event(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
-    start_time = params['start_time']
-    end_time = params['end_time']
-    hashtag = params['hashtag']
+    try:
+        start_time = params['start_time']
+        end_time = params['end_time']
+        hashtag = params['hashtag']
+    except Exception as e:
+        return HttpResponse('Data format was wrong!', status=400)
 
     events = Event.objects.filter(date_took_place__range=(start_time, end_time), hashtag=hashtag)
     dictionaries = [serializer_event(event) for event in events]
-    if len(dictionaries>0):
+    if len(dictionaries) > 0:
         response = HttpResponse(json.dumps({"data": dictionaries}), content_type='application/json', status=200)
     else:
-        response = HttpResponse('No events was found!', status=404)
+        response = HttpResponse('No event was found!', status=404)
 
     return response
 
@@ -144,13 +163,20 @@ def admin_upload(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
-    data = request.POST
-    images = request.FILES.getlist('file')
-    desciption = data['description']
-    date_took_place = data['time']
-    location = data['location']
-    title = data['title']
-    hashtag = data['hashtag']
+    if request.method=="POST":
+        try:
+            data = request.POST
+            images = request.FILES.getlist('file')
+            desciption = data['description']
+            date_took_place = data['time']
+            location = data['location']
+            title = data['title']
+            hashtag = data['hashtag']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
+    else:
+        return HttpResponse('Require POST method', status=405)
+
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     list_path = []
@@ -164,7 +190,7 @@ def admin_upload(request):
 
     Event.objects.create(title=title, description=desciption, photo=list_path, date_took_place=date_took_place,
                          location=location, user=user, time = time, hashtag = hashtag)
-    response = HttpResponse('Upload success!', status=200)
+    response = HttpResponse('Upload successed!', status=201)
 
     return response
 
@@ -177,16 +203,24 @@ def join_event(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
-    data = json.loads(request.body)
-    user_id = data['user_id']
-    event_id = data['event_id']
+
+    if request.method == "POST" or request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            user_id = data['user_id']
+            event_id = data['event_id']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
+    else:
+        return HttpResponse('Require POST or PUT method', status=405)
+
     user = User.objects.get(user_id=user_id)
     event = Event.objects.get(event_id=event_id)
 
     if request.method == 'POST':
         try:
             Participant.objects.create(user=user, event=event)
-            response = HttpResponse('Success!', status=200)
+            response = HttpResponse('Join event successed!', status=200)
         except Exception as e:
             response = HttpResponse('Join event failed')
             return response
@@ -194,9 +228,9 @@ def join_event(request):
         try:
             user = Participant.objects.get(user=user_id, event=event_id)
             user.delete()
-            response = HttpResponse('Success update!', status=200)
+            response = HttpResponse('Update successed!', status=201)
         except Exception as e:
-            response = HttpResponse('Update fail!')
+            response = HttpResponse('Update failed!')
             return response
     return response
 
@@ -209,9 +243,15 @@ def reaction(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
-    data = json.loads(request.body)
-    user_id = data['user_id']
-    event_id = data['event_id']
+    if request.method == "POST" or request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            user_id = data['user_id']
+            event_id = data['event_id']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
+    else:
+        return HttpResponse('Require POST or PUT method', status=405)
 
     user = User.objects.get(user_id=user_id)
     event = Event.objects.get(event_id=event_id)
@@ -219,7 +259,7 @@ def reaction(request):
     if request.method == 'POST':
         try:
             Reaction.objects.create(user=user, event=event)
-            response = HttpResponse('Success', status=200)
+            response = HttpResponse('Like event successed', status=200)
         except Exception as e:
             response = HttpResponse('Like event failed')
             return response
@@ -242,11 +282,17 @@ def comment(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_id = data['user_id']
+            event_id = data['event_id']
+            content = data['content']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
+    else:
+        return HttpResponse('Require POST method', status=405)
 
-    data = json.loads(request.body)
-    user_id = data['user_id']
-    event_id = data['event_id']
-    content = data['content']
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -269,7 +315,10 @@ def get_participant(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
-    event_id = request.GET['event_id']
+    if request.method == "GET":
+        event_id = request.GET['event_id']
+    else:
+        return HttpResponse('Require GET method', status=405)
     event = Event.objects.get(event_id=event_id)
     participants = Participant.objects.filter(event_id=event)
     users = []
@@ -290,7 +339,11 @@ def get_reaction(request):
         except Exception as e:
             response = HttpResponse('Unauthorized!', status=401)
             return response
-    event_id = request.GET['event_id']
+    if request.method == "GET":
+        event_id = request.GET['event_id']
+    else:
+        return HttpResponse('Require GET method', status=405)
+
     event = Event.objects.get(event_id=event_id)
     reactions = Reaction.objects.filter(event_id=event)
     users = []
@@ -312,7 +365,11 @@ def get_comment(request):
             response = HttpResponse('Unauthorized!', status=401)
             return response
 
-    event_id = request.GET['event_id']
+    if request.method == "GET":
+        event_id = request.GET['event_id']
+    else:
+        return HttpResponse('Require GET method', status=405)
+
     event = Event.objects.get(event_id=event_id)
     comments = Comment.objects.filter(event_id=event)
 
