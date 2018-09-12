@@ -154,7 +154,7 @@ def admin_upload(request):
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     list_path = []
-    path = './templates/images/'
+    path = './media/images/'
     for f in images:
         image_path = handle_uploaded_file(f, path)
         list_path.append(image_path)

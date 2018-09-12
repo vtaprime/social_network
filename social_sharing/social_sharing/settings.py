@@ -25,7 +25,7 @@ SECRET_KEY = 'k5#ph)#vix(5cr26la*aml4sscz3r7^^#7qqzqt3v#o$aw-k4n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost' or '127.0.0.1']
 
 
 # Application definition
@@ -58,12 +58,17 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1'
 )
 
+STATIC_URL='/static/'
+STATIC_ROOT=os.path.join(BASE_DIR, 'static/')
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
+
 ROOT_URLCONF = 'social_sharing.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + '/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
