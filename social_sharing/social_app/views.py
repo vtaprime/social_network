@@ -129,6 +129,30 @@ def get_events_list(request):
         return response
 
 
+def get_event_details(request):
+    params = request.GET
+    if 'session_id' in request.COOKIES.keys():
+        session_id = request.COOKIES.get('session_id')
+        try:
+            Session.objects.get(session_value=session_id)
+        except Exception as e:
+            response = HttpResponse('Unauthorized!', status=401)
+            return response
+    try:
+        event_id = params['event_id']
+    except Exception as e:
+        return HttpResponse('Data format was wrong!', status=400)
+
+    event = Event.objects.get(event_id=event_id)
+    event = serializer_event(event)
+    if len(dictionaries) > 0:
+        response = HttpResponse(json.dumps({"data": event}), content_type='application/json', status=200)
+    else:
+        response = HttpResponse('No event was found!', status=404)
+
+    return response
+
+
 def search_event(request):
     params = request.GET
     if 'session_id' in request.COOKIES.keys():
@@ -316,7 +340,10 @@ def get_participant(request):
             response = HttpResponse('Unauthorized!', status=401)
             return response
     if request.method == "GET":
-        event_id = request.GET['event_id']
+        try:
+            event_id = request.GET['event_id']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
     else:
         return HttpResponse('Require GET method', status=405)
     event = Event.objects.get(event_id=event_id)
@@ -340,7 +367,10 @@ def get_reaction(request):
             response = HttpResponse('Unauthorized!', status=401)
             return response
     if request.method == "GET":
-        event_id = request.GET['event_id']
+        try:
+            event_id = request.GET['event_id']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
     else:
         return HttpResponse('Require GET method', status=405)
 
@@ -366,7 +396,10 @@ def get_comment(request):
             return response
 
     if request.method == "GET":
-        event_id = request.GET['event_id']
+        try:
+            event_id = request.GET['event_id']
+        except Exception as e:
+            return HttpResponse('Data format was wrong!', status=400)
     else:
         return HttpResponse('Require GET method', status=405)
 
