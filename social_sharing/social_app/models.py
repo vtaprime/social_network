@@ -50,7 +50,7 @@ class Event(models.Model):
     date_took_place = models.CharField(max_length=45, blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey('User', models.DO_NOTHING)
-    time = models.CharField(max_length=45)
+    time = models.IntegerField()
     hashtag = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
@@ -82,7 +82,7 @@ class Session(models.Model):
     session_id = models.AutoField(primary_key=True)
     ip_adress = models.CharField(db_column='IP_adress', max_length=45)  # Field name made lowercase.
     user = models.ForeignKey('User', models.DO_NOTHING)
-    last_login = models.CharField(max_length=45)
+    last_login = models.IntegerField()
     login_status = models.CharField(max_length=45)
     session_value = models.TextField()
 
@@ -97,7 +97,7 @@ class User(models.Model):
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)
     is_super_user = models.IntegerField()
-    username = models.CharField(max_length=45)
+    username = models.CharField(unique=True, max_length=45)
     password = models.CharField(max_length=100)
 
     class Meta:

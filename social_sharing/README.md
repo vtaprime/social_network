@@ -15,7 +15,13 @@ Now, the virtualenv and MySQL packages from python repository.
 ```commandline
 pip install virtualenv MySQL-python
 ```
-## Create and import database from .sql from the source
+## Create and import database
+```commandline
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'; #change password of root
+FLUSH PRIVILEGES;
+
+```
 ```buildoutcfg
 'DATABASE NAME': 'social_sharing',
 'USER': 'root',
@@ -29,6 +35,7 @@ virtualenv ~/venv    # Virtual Environment
 source ~/venv/bin/activate     # Activate it
 cd social_sharing
 pip install requirements.txt  # Install python-lib need for app
+python manage.py syncdb
 
 ```
 ## Create systemd daemon process

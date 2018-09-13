@@ -131,7 +131,7 @@
         $("#login-btn").click(function login(argument) {
 
             var data2={
-                    "username": "vta",
+                    "username": "vta1",
                     "password": "vta1234"
                 };
 
@@ -142,14 +142,15 @@
             });
 
             $.ajax({
-                url: "http://127.0.0.1:8000/social_app/api/admin/login",
+                url: "http://localhost:8000/social_app/api/admin/login",
                 type:"POST",
                 contentType: "application/json; charset=UTF-8",
                 crossDomain: true,
                 data: JSON.stringify(data2),
-                complete: function(data2){
-                            alert("login successww");
-                            console.log("data", data2);
+                success: function(output, status, xhr){
+                            alert(xhr.getResponseHeader('Set-Cookie'));
+                            console.log("data", output);
+
                     }
             });
         });
