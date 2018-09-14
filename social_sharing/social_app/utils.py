@@ -1,5 +1,7 @@
 import bcrypt
-
+from models import Session
+from django.http import HttpResponse
+import json
 
 def get_hashed_password(plain_text_password):
     # Hash a password for the first time
@@ -50,3 +52,19 @@ def serializer_comment(comment):
         "user_id": comment.user_id,
         "create_time": comment.create_time
     }
+
+
+def login_require(f):
+    def wrapper(request):
+        if 'session_id' in request.COOKIES.keys():
+            session_id = request.COOKIES.get('session_id')
+            try:
+                Session.session_objects.get_session(session_value=session_id)
+            except Exception as e:
+                response = HttpResponse(json.dumps({"error": "Unauthorized!"}), status=401)
+                return response
+            return f(request)
+        else:
+            response = HttpResponse(json.dumps({"error": "Unauthorized!"}), status=401)
+            return response
+    return wrapper

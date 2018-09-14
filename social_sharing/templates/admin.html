@@ -111,17 +111,19 @@
             formData.append('location', location);
             formData.append('time', time);
             formData.append('description', description);
+            formData.append('username', 'vta1');
             $.ajaxSetup({
                 xhrFields: {
                     withCredentials: true
                 }
             });
             $.ajax({
-                url: "http://127.0.0.1:8000/social_app/api/admin/upload",
+                url: "http://localhost:8000/social_app/api/admin/upload",
                 type:"POST",
                 processData:false,
                 contentType: false,
                 crossDomain: true,
+                credentials: 'same-origin',
                 data: formData,
                     complete: function(data){
                                 alert("success");
@@ -135,12 +137,6 @@
                     "password": "vta1234"
                 };
 
-            $.ajaxSetup({
-                xhrFields: {
-                    withCredentials: true
-                }
-            });
-
             $.ajax({
                 url: "http://localhost:8000/social_app/api/admin/login",
                 type:"POST",
@@ -150,7 +146,7 @@
                 success: function(output, status, xhr){
                             alert(xhr.getResponseHeader('Set-Cookie'));
                             console.log("data", output);
-
+                            console.log(document.cookie);
                     }
             });
         });
@@ -163,7 +159,8 @@
             });
 
             $.ajax({
-                url: "http://127.0.0.1:8000/social_app/api/logout",
+                url: "http://localhost:8000/social_app/api/logout",
+                credentials: 'same-origin',
                 crossDomain: true,
                 complete: function(data2){
                             alert("logout successww");
