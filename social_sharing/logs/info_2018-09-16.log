@@ -1,0 +1,297 @@
+2018-09-16 02:05:54,025 - django.request - WARNING - Not Found: /social_app/api/login
+2018-09-16 02:07:48,243 - root - ERROR - Error when loading user info: User matching query does not exist.
+2018-09-16 02:07:48,245 - django.request - WARNING - Not Found: /social_app/api/login
+2018-09-16 06:09:37,940 - django.request - WARNING - Not Found: /social_app/events_list
+2018-09-16 06:09:40,376 - django.request - WARNING - Not Found: /social_app/events_list/
+2018-09-16 06:09:59,229 - django.request - ERROR - Internal Server Error: /social_app/api/events_list/
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 66, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 123, in get_events_list
+    if not result:
+NameError: global name 'result' is not defined
+2018-09-16 06:11:27,575 - django.request - ERROR - Internal Server Error: /social_app/api/events_list/
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 66, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 123, in get_events_list
+    events = cache.get(cache_key)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/cache/__init__.py", line 99, in __getattr__
+    return getattr(caches[DEFAULT_CACHE_ALIAS], name)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/cache/__init__.py", line 80, in __getitem__
+    cache = _create_cache(alias)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/cache/__init__.py", line 55, in _create_cache
+    return backend_cls(location, params)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/cache/backends/memcached.py", line 162, in __init__
+    import memcache
+ImportError: No module named memcache
+2018-09-16 06:13:33,025 - django.request - ERROR - Internal Server Error: /social_app/api/events_list/
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 66, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 124, in get_events_list
+    if not result:
+NameError: global name 'result' is not defined
+2018-09-16 06:13:51,423 - root - INFO - Number of events: 0
+2018-09-16 06:19:55,337 - root - INFO - Number of events: 5
+2018-09-16 06:20:23,616 - root - INFO - Number of events: 5
+2018-09-16 06:35:10,554 - root - INFO - Number of events: 5
+2018-09-16 06:37:30,445 - root - INFO - Number of events: 5
+2018-09-16 06:37:41,445 - root - INFO - Number of events: 5
+2018-09-16 14:17:25,929 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 75, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 35, in handle_uploaded_file
+    path = generate_uid(path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 28, in generate_uid
+    dir = "{0:%Y/%j}".format(date)
+NameError: global name 'date' is not defined
+2018-09-16 14:18:02,157 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 77, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 37, in handle_uploaded_file
+    path = generate_uid(path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 32, in generate_uid
+    path = path + dir + uid
+TypeError: cannot concatenate 'str' and 'UUID' objects
+2018-09-16 14:19:04,292 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 77, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 38, in handle_uploaded_file
+    with open(path, 'wb+') as destination:
+IOError: [Errno 2] No such file or directory: './media/images/2018/259771621d8-b9bb-11e8-9df2-000c29ab02d5'
+2018-09-16 14:20:33,948 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 77, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 38, in handle_uploaded_file
+    with open(path, 'wb+') as destination:
+IOError: [Errno 2] No such file or directory: './media/images/2018_259/ac890682-b9bb-11e8-9df2-000c29ab02d5'
+2018-09-16 14:33:59,698 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 80, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 39, in handle_uploaded_file
+    file_mime = mimetypes.guess_type(f)
+  File "/usr/lib/python2.7/mimetypes.py", line 294, in guess_type
+    return _db.guess_type(url, strict)
+  File "/usr/lib/python2.7/mimetypes.py", line 114, in guess_type
+    scheme, url = urllib.splittype(url)
+  File "/usr/lib/python2.7/urllib.py", line 1085, in splittype
+    match = _typeprog.match(url)
+TypeError: expected string or buffer
+2018-09-16 14:40:50,769 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 81, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 40, in handle_uploaded_file
+    extension = u_file.split(".").lower()[-1]
+NameError: global name 'u_file' is not defined
+2018-09-16 14:41:16,880 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 81, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 40, in handle_uploaded_file
+    extension = f.split(".").lower()[-1]
+AttributeError: 'InMemoryUploadedFile' object has no attribute 'split'
+2018-09-16 14:41:37,827 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 81, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 40, in handle_uploaded_file
+    extension = f.name.split(".").lower()[-1]
+AttributeError: 'list' object has no attribute 'lower'
+2018-09-16 14:44:48,082 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 85, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 44, in handle_uploaded_file
+    file_mime = check_in_memory_mime(f)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 31, in check_in_memory_mime
+    mime = magic.from_buffer(in_memory_file.read(), mime=True)
+NameError: global name 'magic' is not defined
+2018-09-16 14:48:40,332 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 88, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 48, in handle_uploaded_file
+    path = generate_uid(path) + '.' + type
+UnboundLocalError: local variable 'type' referenced before assignment
+2018-09-16 14:49:20,532 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 90, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 49, in handle_uploaded_file
+    with open(path, 'wb+') as destination:
+IOError: [Errno 2] No such file or directory: './media/images/2018_259/b1a8c702-b9bf-11e8-9df2-000c29ab02d5.jpeg'
+2018-09-16 15:21:06,251 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 97, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 56, in handle_uploaded_file
+    with open(path, 'wb+') as destination:
+IOError: [Errno 2] No such file or directory: './media/images/2018_259/218e5c68-b9c4-11e8-9df2-000c29ab02d5.jpeg'
+2018-09-16 15:23:26,360 - django.request - ERROR - Internal Server Error: /social_app/api/admin/upload
+Traceback (most recent call last):
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/anhvt/social_network_venv/local/lib/python2.7/site-packages/django/views/decorators/http.py", line 40, in inner
+    return func(request, *args, **kwargs)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 95, in wrapper
+    return f(request)
+  File "/home/anhvt/social_network/social_sharing/social_app/views.py", line 230, in admin_upload
+    image_path = handle_uploaded_file(f, path)
+  File "/home/anhvt/social_network/social_sharing/utils/utils.py", line 53, in handle_uploaded_file
+    path = generate_uid(path) + '.' + type
+NameError: global name 'generate_uid' is not defined
