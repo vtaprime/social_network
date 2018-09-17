@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from models import User, Reaction, Event, Session, Participant, Comment
+from forms import EventForm
 from utils.utils import check_password, get_client_ip, handle_uploaded_file, serializer_event, serializer_comment,\
     login_require
 import json
@@ -206,17 +207,21 @@ def search_event(request):
 @login_require
 def admin_upload(request):
     if request.method=="POST":
-        try:
-            data = request.POST
-            images = request.FILES.getlist('file')
-            description = data['description']
-            date_took_place = data['time']
-            location = data['location']
-            title = data['title']
-            hashtag = data['hashtag']
-            user_name = data['username']
-        except Exception as e:
-            logger.error('Error when upload event: {}'.format(e))
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                data = request.POST
+                images = request.FILES.getlist('file')
+                description = data['description']
+                date_took_place = data['time']
+                location = data['location']
+                title = data['title']
+                hashtag = data['hashtag']
+                user_name = data['username']
+            except Exception as e:
+                logger.error('Error when upload event: {}'.format(e))
+                return HttpResponse(json.dumps({"error": "Data format was wrong!"}), status=400)
+        else:
             return HttpResponse(json.dumps({"error": "Data format was wrong!"}), status=400)
     else:
         return HttpResponse(json.dumps({"error": "Require POST method"}), status=405)

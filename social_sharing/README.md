@@ -20,7 +20,7 @@ pip install virtualenv MySQL-python
 sudo mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'; #change password of root
 FLUSH PRIVILEGES;
-
+CREATE DATBASE 
 ```
 ```buildoutcfg
 'DATABASE NAME': 'social_sharing',

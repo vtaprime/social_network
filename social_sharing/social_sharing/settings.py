@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Env
+ENV = os.getenv('ENV', 'DEBUG')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -64,7 +66,7 @@ ROOT_URLCONF = 'social_sharing.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR + '/templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,16 +85,29 @@ WSGI_APPLICATION = 'social_sharing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'social_sharing',
-        'USER': 'root',
-        'PASSWORD': '12345678',
-        'HOST': '0.0.0.0',
-        'PORT': '3306',
+if ENV == 'DEBUG':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'social_sharing',
+            'USER': 'root',
+            'PASSWORD': '12345678',
+            'HOST': '0.0.0.0',
+            'PORT': '3306',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('DB_NAME', 'social_sharing'),
+            'USER': os.getenv('DB_USER', 'root'),
+            'PASSWORD': os.getenv('DB_PASS', '12345678'),
+            'HOST': os.getenv('DB_HOST', '0.0.0.0'),
+            'PORT': os.getenv('DB_PORT', '3306')
+        }
+    }
+
 
 
 # Password validation
@@ -143,3 +158,5 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211',
     }
 }
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
